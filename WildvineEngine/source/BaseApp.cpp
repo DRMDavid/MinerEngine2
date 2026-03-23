@@ -133,35 +133,35 @@ BaseApp::init() {
 	if (!m_cyberGun.isNull()) {
 		// Crear vertex buffer y index buffer para el pistol
 		std::vector<MeshComponent> cyberGunMeshes;
-		m_model = new Model3D("Assets/Models/CyberGun.fbx", ModelType::FBX);
+		m_model = new Model3D("Assets/Models/Pistol.fbx", ModelType::FBX);
 		cyberGunMeshes = m_model->GetMeshes();
 
 		std::vector<Texture> cyberGunTextures;
-		hr = m_AlbedoSRV.init(m_device, "Assets/Textures/CyberGun/base.tga", PNG);
+		hr = m_AlbedoSRV.init(m_device, "Assets/Textures/Pistol/BASECOLOR_Material", PNG);
 		if (FAILED(hr)) {
 			ERROR("Main", "InitDevice",
 				("Failed to initialize DrakePistol Texture. HRESULT: " + std::to_string(hr)).c_str());
 			return hr;
 		}
-		hr = m_MetallicSRV.init(m_device, "Assets/Textures/CyberGun/metallic.tga", PNG);
+		hr = m_MetallicSRV.init(m_device, "Assets/Textures/Pistol/METALLICMaterial", PNG);
 		if (FAILED(hr)) {
 			ERROR("Main", "InitDevice",
 				("Failed to initialize DrakePistol Texture. HRESULT: " + std::to_string(hr)).c_str());
 			return hr;
 		}
-		hr = m_RoughnessSRV.init(m_device, "Assets/Textures/CyberGun/roughness.tga", PNG);
+		hr = m_RoughnessSRV.init(m_device, "Assets/Textures/Pistol/ROUGHNESS", PNG);
 		if (FAILED(hr)) {
 			ERROR("Main", "InitDevice",
 				("Failed to initialize DrakePistol Texture. HRESULT: " + std::to_string(hr)).c_str());
 			return hr;
 		}
-		hr = m_AOSRV.init(m_device, "Assets/Textures/CyberGun/ao.tga", PNG);
+		hr = m_AOSRV.init(m_device, "Assets/Textures/Pistol/AOMaterial", PNG);
 		if (FAILED(hr)) {
 			ERROR("Main", "InitDevice",
 				("Failed to initialize DrakePistol Texture. HRESULT: " + std::to_string(hr)).c_str());
 			return hr;
 		}
-		hr = m_NormalSRV.init(m_device, "Assets/Textures/CyberGun/normal.tga", PNG);
+		hr = m_NormalSRV.init(m_device, "Assets/Textures/Pistol/NORMAL_Material", PNG);
 		if (FAILED(hr)) {
 			ERROR("Main", "InitDevice",
 				("Failed to initialize DrakePistol Texture. HRESULT: " + std::to_string(hr)).c_str());
@@ -178,9 +178,12 @@ BaseApp::init() {
 		m_cyberGun->setName("CyberGun");
 		m_actors.push_back(m_cyberGun);
 
-		m_cyberGun->getComponent<Transform>()->setTransform(EU::Vector3(2.0f, -1.90f, 11.60f),
-			EU::Vector3(-0.60f, 3.0f, -0.20f),
-			EU::Vector3(1.0f, 1.0f, 1.0f));
+		// El orden es: setTransform(Posición, Rotación, Escala)
+		m_cyberGun->getComponent<Transform>()->setTransform(
+			EU::Vector3(0.05f, 2.92f, 5.60f),   // Nueva posición centrada
+			EU::Vector3(-1.80f, 2.00f, -0.20f), // Rotación actual
+			EU::Vector3(1.0f, 1.0f, 1.0f)       // Escala actual
+		);
 	}
 	else {
 		ERROR("Main", "InitDevice", "Failed to create cyber Gun Actor.");
@@ -335,8 +338,8 @@ void
 BaseApp::render() {
 	handleEditorViewportResize();
 
-	float ClearColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
-	const float viewportClear[4] = { 0.10f, 0.10f, 0.10f, 1.0f };
+	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	const float viewportClear[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_editorViewportPass.begin(m_deviceContext, viewportClear);
 	m_editorViewportPass.setViewport(m_deviceContext);
 	m_editorViewportPass.clearDepth(m_deviceContext);
